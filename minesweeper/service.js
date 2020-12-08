@@ -3,6 +3,9 @@
  */
 const MINE_LIMIT = 3;
 const INPUT_LIMIT = 22;
+/**
+ * Array for Board
+ */
 var twoDArr = [
     [
         " ", " ", " ", " ", " "
@@ -50,6 +53,7 @@ function doesHitMine(xArray, yArray, x, y) {
  * @param {array} yArray y array
  * @param {string} x x
  * @param {string} y y
+ * @returns {integer} mineCount
  */
 function calculateMineCount(xArray, yArray, x, y) {
     var mineCount = 0;
@@ -81,7 +85,10 @@ function calculateMineCount(xArray, yArray, x, y) {
     }
     return mineCount;
 }
-
+/**
+ * This is to start the game
+ * @returns void
+ */
 function startGame() {
     console.log("Welcome");
     var xArray = [];
@@ -125,6 +132,7 @@ function startGame() {
 }
 /**
  * This is to show board for game.
+ * @returns void
  */
 function drawBoard() {
     console.log("+-----+-----+-----+-----+-----+");
