@@ -1,8 +1,8 @@
 /**
- * This is mind limit constant and user input limit.
+ * This is for mine limit.
  */
-const MINE_LIMIT = 3;
-const INPUT_LIMIT = 22;
+var mineLimit;
+
 /**
  * Array for Board
  */
@@ -39,7 +39,7 @@ function getXandY() {
  */
 function doesHitMine(xArray, yArray, x, y) {
     var hitMine = false;
-    for (var idx = 0; idx < MINE_LIMIT; idx++) {
+    for (var idx = 0; idx < mineLimit; idx++) {
         if ((xArray[idx] == x - 1 && yArray[idx] == y - 1)) {
             hitMine = true;
             break;
@@ -57,7 +57,7 @@ function doesHitMine(xArray, yArray, x, y) {
  */
 function calculateMineCount(xArray, yArray, x, y) {
     var mineCount = 0;
-    for (var idx = 0; idx < MINE_LIMIT; idx++) {
+    for (var idx = 0; idx < mineLimit; idx++) {
         if (xArray[idx] - 1 == x - 1 && yArray[idx] - 1 == y - 1) {
             mineCount++;
         }
@@ -91,15 +91,26 @@ function calculateMineCount(xArray, yArray, x, y) {
  */
 function startGame() {
     console.log("Welcome");
+    mineLimit = prompt("Please Enter a Limit of Booms:");
     var xArray = [];
     var yArray = [];
-    for (var mineIndex = 0; mineIndex < MINE_LIMIT; mineIndex++) {
-        xArray.push(Math.floor(Math.random() * 4) + 0);
-        yArray.push(Math.floor(Math.random() * 4) + 0);
-    }
+    var uniqArray = [];
+    do {
+        var tmpMineX = Math.floor(Math.random() * 5) + 0;
+        var tmpMineY = Math.floor(Math.random() * 5) + 0;
+        var tmpMine = ("" + tmpMineX + tmpMineY);
+        var index = uniqArray.indexOf(tmpMine);
+        if (index == -1) {
+            xArray.push(tmpMineX);
+            yArray.push(tmpMineY);
+            uniqArray.push(tmpMine);
+        }
+    } while (xArray.length != mineLimit && yArray.length != mineLimit);
+
     var hitMine = false;
     var userInputCellCount = 0;
-    while (userInputCellCount != INPUT_LIMIT) {
+    inputLimit = 25 - mineLimit;
+    while (userInputCellCount != inputLimit) {
         drawBoard();
 
         var userInput = getXandY();
@@ -114,7 +125,7 @@ function startGame() {
 
         if (hitMine) {
             console.log("Game Over");
-            for (var mine = 0; mine < MINE_LIMIT; mine++) {
+            for (var mine = 0; mine < mineLimit; mine++) {
                 twoDArr[yArray[mine]][xArray[mine]] = "M";
             }
             drawBoard();
